@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>菜鸟教程(runoob.com)</title>
+      
+      <script type="text/javascript">
+         var ws; // 将 WebSocket 定义为全局变量
+
+         function WebSocketTest() {
+            if ("WebSocket" in window) {
+               alert("您的浏览器支持 WebSocket!");
+
+               // 打开一个 WebSocket
+               ws = new WebSocket("ws://localhost:9900");
+               ws.onopen = function() {
+                  alert("WebSocket 连接已建立!");
+               };
+
+               ws.onmessage = function (evt) {
+                  var received_msg = evt.data;
+                  alert("收到数据: " + received_msg);
+               };
+
+               ws.onclose = function() {
+                  alert("连接已关闭...");
+               };
+            } else {
+               // 浏览器不支持 WebSocket
+               alert("您的浏览器不支持 WebSocket!");
+            }
+         }
+
+         function sendMessage() {
+            var input = document.getElementById("messageInput").value;
+            if (ws && ws.readyState === WebSocket.OPEN) {
+               ws.send(input);
+               alert("数据发送中: " + input);
+            } else {
+               alert("WebSocket 连接未打开.");
+            }
+         }
+      </script>
+   </head>
+   <body>
+      <div id="sse">
+         <a href="javascript:WebSocketTest()">运行 WebSocket</a>
+      </div>
+      <br>
+      <div>
+         <input type="text" id="messageInput" placeholder="请输入消息">
+         <button onclick="sendMessage()">发送</button>
+      </div>
+   </body>
+</html>
